@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+.poetsenFont {
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body{
+    background-color: #212121;
+    color: cyan;
+}
+
+svg{
+    width: 21px;
+}
+
+#heading{
+    margin: 40px 40px;
+}
+
+#header{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 100px;
+}
+
+#header #time{
+    color:rgb(255, 251, 28);
+    margin-left: 30px;
+}
+
+#header #newGame{
+    text-align: right;
+    margin-right: 21px;
+}
+
+#parag{
+    margin: 49px 30px;
+    line-height: 33px;
+    height: 99px;
+    overflow: hidden;
+    font-size: larger;
+}
+
+#parag .word{
+    display: inline-block;
+    margin: 0px 5px;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+}
+
