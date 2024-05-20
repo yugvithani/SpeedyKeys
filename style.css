@@ -5,9 +5,14 @@
     font-style: normal;
 }
 
+:root{
+    --primaryText:#fff;
+    --secondaryText: #666;
+    --cursorColor: rgb(255, 251, 28)
+}
+
 body{
     background-color: #212121;
-    color: cyan;
 }
 
 svg{
@@ -16,6 +21,7 @@ svg{
 
 #heading{
     margin: 40px 40px;
+    color: cyan;
 }
 
 #header{
@@ -25,7 +31,7 @@ svg{
 }
 
 #header #time{
-    color:rgb(255, 251, 28);
+    color:var(--cursorColor);
     margin-left: 30px;
 }
 
@@ -33,19 +39,45 @@ svg{
     margin-left: 85%;
 }
 
-#parag{
-    margin: 49px 30px;
+#game{
     line-height: 33px;
     height: 99px;
     overflow: hidden;
     font-size: larger;
+    margin: 49px 30px;
+    position: relative;
 }
 
 #parag .word{
     display: inline-block;
     margin: 0px 5px;
-    color: white;
     font-family: 'Roboto Mono', monospace;
+}
+
+#parag {
+    filter: blur(5px);
+    color: var(--secondaryText);
+}
+
+#focusError{
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    padding-top: 33px;
+    color: var(--primaryText);
+    font-family: 'Roboto Mono', monospace;
+}
+
+#game:focus #parag{
+    filter: blur(0px);
+}
+
+#game:focus #cursor{
+    filter: blur(0px);
+}
+
+#game:focus #focusError{
+    display: none;
 }
 
 #cursor{
@@ -57,6 +89,7 @@ svg{
     left: 40px;
     border-radius: 100px;
     animation: cursor 1s infinite;
+    filter: blur(5px);
 }
 
 @keyframes cursor {

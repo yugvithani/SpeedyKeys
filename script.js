@@ -9,7 +9,7 @@ function randomWord(){
     return words[Math.ceil(Math.random() * (wordsLen - 1))]
 }
 
-function formatHtml(word){
+function formatParag(word){
     return `<div class="word">
         <span class="letter">${word.split('').join('</span><span class="letter">')}</span>
     </div>`
@@ -19,7 +19,10 @@ function newGame(e){
     let parag = document.getElementById('parag')
     parag.innerHTML = ''
     for(let i=0; i<100; i++){
-        parag.innerHTML += formatHtml(randomWord())
+        parag.innerHTML += formatParag(randomWord())
     }
+
+    document.querySelector('.word').classList += ' current'
+    document.querySelector('.letter').classList += ' current'
 }
 
