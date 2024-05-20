@@ -8,6 +8,7 @@
 :root{
     --primaryText:#fff;
     --secondaryText: #666;
+    --incorrectText: #f55;
     --cursorColor: rgb(255, 251, 28)
 }
 
@@ -78,6 +79,23 @@ svg{
 
 #game:focus #focusError{
     display: none;
+}
+
+#newGame{
+    cursor: pointer;
+}
+
+span{
+    margin:0px;
+    padding: 0px;
+}
+
+span.correct{
+    color: var(--primaryText);
+}
+
+span.incorrect{
+    color: var(--incorrectText);
 }
 
 #cursor{
