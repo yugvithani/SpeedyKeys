@@ -30,8 +30,7 @@ svg{
 }
 
 #header #newGame{
-    text-align: right;
-    margin-right: 21px;
+    margin-left: 85%;
 }
 
 #parag{
@@ -49,3 +48,25 @@ svg{
     font-family: 'Roboto Mono', monospace;
 }
 
+#cursor{
+    position: fixed;
+    background-color:rgb(255, 251, 28);
+    width: 1.9px;
+    height: 20px;
+    top: 254px;
+    left: 40px;
+    border-radius: 100px;
+    animation: cursor 1s infinite;
+}
+
+@keyframes cursor {
+    0%{
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
