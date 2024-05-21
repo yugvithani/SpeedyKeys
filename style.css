@@ -33,7 +33,9 @@ svg{
 
 #header #time{
     color:var(--cursorColor);
-    margin-left: 30px;
+    margin-left: 30px; 
+    font-family: 'Roboto Mono', monospace;
+    font-size: large;
 }
 
 #header #newGame{
@@ -78,6 +80,18 @@ svg{
 }
 
 #game:focus #focusError{
+    display: none;
+}
+
+#game.over #parag{
+    filter: blur(0px)
+}
+
+#game.over #focusError{
+    display: none;
+}
+
+#game.over #cursor{
     display: none;
 }
 

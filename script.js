@@ -25,6 +25,15 @@ function newGame(e){
 
     document.querySelector('.word').classList += ' current'
     document.querySelector('.letter').classList += ' current'
+    window.timer = null
+}
+
+window.timer = null         // for global var
+let gameStartTime = null    // starting time of game
+let timeStamp = 29          // time stamp for game
+function gameOver(){
+    clearInterval(window.timer)
+    addClass(document.querySelector('#game'), 'over')
 }
 
 function addClass(tag, className){
@@ -40,13 +49,35 @@ document.getElementById('game').addEventListener('keyup', function(e){
 
     let currWord = document.querySelector('.current')
     let currLetter = currWord.querySelector('.current')
-    let key = e.key
-    let isSpace = (key == ' ')
-    let isLetter = (key.length == 1) && (key != ' ')
-    let isBackspace = (key == 'Backspace')
-    let isFirstLetter = (currLetter == currWord.firstChild)
-    let isExtraLetter = currWord.lastChild.classList.contains('extra')
+    const key = e.key
+    const isSpace = (key == ' ')
+    const isLetter = (key.length == 1) && (key != ' ')
+    const isBackspace = (key == 'Backspace')
+    const isFirstLetter = (currLetter == currWord.firstChild)
+    const isExtraLetter = currWord.lastChild.classList.contains('extra')
     
+    // if timer is over
+    if(document.querySelector('#game.over')){
+        return;
+    }
+
+    // for timer & active when typing is start
+    if(!window.timer && isLetter){
+        window.timer = setInterval(() => {
+            if(!gameStartTime){
+                gameStartTime = (new Date).getTime()    
+            }
+            let currTime = (new Date).getTime()
+            let sTime = Math.round((currTime - gameStartTime) / 1000)
+            let sLeft = timeStamp - sTime 
+            if(sLeft <= 0){
+                gameOver();
+                return;
+            }
+            document.querySelector('#time').innerHTML = sLeft
+        }, 1000);
+    }    
+
     // key is space
     if(isSpace){
 
