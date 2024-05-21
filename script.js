@@ -3,7 +3,10 @@ const words = ('us deport inappropriate ticket quiet self here prince voter chau
 const wordsLen = words.length
 
 document.addEventListener('DOMContentLoaded', newGame)
-document.getElementById('newGame').addEventListener('click', newGame)
+document.getElementById('newGame').addEventListener('click', function(){
+    gameOver()
+    newGame()
+})
 
 //giving random word from words array
 function randomWord(){
@@ -42,7 +45,7 @@ function getWPM(){
 }
 
 // for new Game
-function newGame(e){
+function newGame(){
     let parag = document.getElementById('parag')
     parag.innerHTML = ''
     for(let i=0; i<120; i++){
@@ -53,6 +56,14 @@ function newGame(e){
     document.querySelector('.letter').classList += ' current'
     window.timer = null
     document.querySelector('#time').innerHTML = timeStamp
+    // reset game tag 
+    document.querySelector('#game').classList.remove('over')
+    // reset variable
+    window.timer = null         
+    gameStartTime = null  
+    // reset cursor
+    cursor.style.left = document.querySelector('.letter.current').getBoundingClientRect().left + 'px'
+    cursor.style.top = document.querySelector('.letter.current').getBoundingClientRect().top + 'px'
 }
 
 function gameOver(){
