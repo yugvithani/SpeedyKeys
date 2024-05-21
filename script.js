@@ -41,11 +41,15 @@ document.getElementById('game').addEventListener('keyup', function(e){
     let currWord = document.querySelector('.current')
     let currLetter = currWord.querySelector('.current')
     let key = e.key
-    // if(currLetter)
-    //     console.log(`key : ${key},  currLetter:${currLetter.innerHTML}`)
+    let isSpace = (key == ' ')
+    let isLetter = (key.length == 1) && (key != ' ')
+    let isBackspace = (key == 'Backspace')
+    let isFirstLetter = (currLetter == currWord.firstChild)
+    let isExtraLetter = currWord.lastChild.classList.contains('extra')
+    console.log(isExtraLetter);
     
     // key is space
-    if(key == ' '){
+    if(isSpace){
 
         // .current is not occupied by any letter, it shows space is currLetter
         if(currLetter == null){
@@ -68,8 +72,43 @@ document.getElementById('game').addEventListener('keyup', function(e){
             addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
         }
     }
+
+    // key is Backspace
+    else if(isBackspace){
+        // not space and curr is first letter
+        if(currLetter && isFirstLetter){
+            // for the all word expecting first word
+            if(currWord.previousElementSibling){
+                removeClass(currWord, 'current')
+                addClass(currWord.previousElementSibling, 'current')
+                removeClass(currLetter, 'current')
+            }
+               // if not want to include space into backspace
+            // addClass(currWord.previousElementSibling.lastChild, 'current')
+            // removeClass(currWord.previousElementSibling.lastChild, 'incorrect')
+            // removeClass(currWord.previousElementSibling.lastChild, 'correct')
+        }
+        // for the extra letter inplace of space
+        else if(isExtraLetter){
+            currWord.lastChild.remove()
+        }
+        // curr is not first letter
+        else if(currLetter && !isFirstLetter){
+            removeClass(currLetter.previousElementSibling, 'incorrect')
+            removeClass(currLetter.previousElementSibling, 'correct')
+            removeClass(currLetter, 'current')
+            addClass(currLetter.previousElementSibling, 'current')
+        }
+        // curr is space
+        else if(!currLetter){
+            addClass(currWord.lastChild, 'current')
+            removeClass(currWord.lastChild, 'correct')
+            removeClass(currWord.lastChild, 'incorrect')
+        }
+    }
+
     // key is not space
-    else{
+    else if(isLetter){
         // expecting space
         if(currLetter == null){
             // console.log(`3. Key :${key}, currLetter :${currLetter}`);
@@ -107,12 +146,11 @@ document.getElementById('game').addEventListener('keyup', function(e){
     let nextLetter = currWord.querySelector('.current')
     let cursor = document.getElementById('cursor')
 
-    // for next line // getBoundingClientRect() show actual param of div
-    cursor.style.top = nextLetter.getBoundingClientRect().top + 'px'
-
     // if nextLetter is not space then nextLetter's left is assign
     if(nextLetter){
         cursor.style.left = nextLetter.getBoundingClientRect().left + 'px'
+        // for next line // getBoundingClientRect() show actual param of div
+        cursor.style.top = nextLetter.getBoundingClientRect().top + 'px'
     }
     // if nextLetter is space then nextWord's right is assign
     else{
