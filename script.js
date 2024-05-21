@@ -15,6 +15,18 @@ function formatParag(word){
     return `<div class="word"><span class="letter">${word.split('').join('</span><span class="letter">')}</span></div>`
 }
 
+function addClass(tag, className){
+    tag.className += ` ${className}`
+}
+
+function removeClass(tag, className){
+    tag.classList.remove(className)
+}
+
+window.timer = null         // for global var
+let gameStartTime = null    // starting time of game
+let timeStamp = 30         // time stamp for game
+
 // for new Game
 function newGame(e){
     let parag = document.getElementById('parag')
@@ -26,23 +38,14 @@ function newGame(e){
     document.querySelector('.word').classList += ' current'
     document.querySelector('.letter').classList += ' current'
     window.timer = null
+    document.querySelector('#time').innerHTML = timeStamp
 }
 
-window.timer = null         // for global var
-let gameStartTime = null    // starting time of game
-let timeStamp = 29          // time stamp for game
 function gameOver(){
     clearInterval(window.timer)
     addClass(document.querySelector('#game'), 'over')
 }
 
-function addClass(tag, className){
-    tag.className += ` ${className}`
-}
-
-function removeClass(tag, className){
-    tag.classList.remove(className)
-}
 
 // keyboard Events
 document.getElementById('game').addEventListener('keyup', function(e){
