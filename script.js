@@ -46,7 +46,6 @@ document.getElementById('game').addEventListener('keyup', function(e){
     let isBackspace = (key == 'Backspace')
     let isFirstLetter = (currLetter == currWord.firstChild)
     let isExtraLetter = currWord.lastChild.classList.contains('extra')
-    console.log(isExtraLetter);
     
     // key is space
     if(isSpace){
@@ -54,9 +53,11 @@ document.getElementById('game').addEventListener('keyup', function(e){
         // .current is not occupied by any letter, it shows space is currLetter
         if(currLetter == null){
             // console.log(`1. Key :${key}, currLetter :${currLetter}`);
-            removeClass(currWord, 'current')
-            addClass(currWord.nextElementSibling, 'current')
-            addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
+            if(currWord.nextElementSibling){
+                removeClass(currWord, 'current')
+                addClass(currWord.nextElementSibling, 'current')
+                addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
+            }
             // console.log(currWord);
             // console.log(currWord.nextElementSibling);
             // console.log(currWord.nextElementSibling.querySelector('.letter'));
@@ -67,9 +68,11 @@ document.getElementById('game').addEventListener('keyup', function(e){
             removeClass(currLetter, 'current')
             addClass(currLetter, 'incorrect')
             let currWord = currLetter.parentElement
-            removeClass(currWord, 'current')
-            addClass(currWord.nextElementSibling, 'current')
-            addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
+            if(currWord.nextElementSibling){
+                removeClass(currWord, 'current')
+                addClass(currWord.nextElementSibling, 'current')
+                addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
+            }
         }
     }
 
@@ -140,6 +143,14 @@ document.getElementById('game').addEventListener('keyup', function(e){
         }
     }
     
+
+    // scroll lines
+    if(currWord.getBoundingClientRect().top > 285){
+        let parag = document.querySelector('#parag')
+        let margin = parseInt(parag.style.marginTop || '0px')
+        parag.style.marginTop = (margin - 33) + 'px'
+    }
+
     // move blinking cursor...
     // currWord or ,nextWord(if currLetter is space)
     currWord = document.querySelector('.current')
