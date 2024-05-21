@@ -25,13 +25,27 @@ function removeClass(tag, className){
 
 window.timer = null         // for global var
 let gameStartTime = null    // starting time of game
-let timeStamp = 30         // time stamp for game
+let timeStamp = 30          // time stamp for game
+
+function getWPM(){
+    let allWords = [...document.querySelectorAll('.word')]
+    let lastTypedWord = document.querySelector('.word.current')
+    let lastTypedWordIndex = allWords.indexOf(lastTypedWord)
+    let typedWords = allWords.slice(0, lastTypedWordIndex)
+    let correctWords = typedWords.filter((word) => {
+        let allLetters = [...word.querySelectorAll('.letter')]
+        let correctLetters = allLetters.filter((letter) => letter.classList.contains('correct'))
+        let incorrectLetters = allLetters.filter((letter) => letter.classList.contains('incorrect'))
+        return (correctLetters.length == allLetters.length) && (incorrectLetters == 0) 
+    }) 
+    return (correctWords.length) * (60 / timeStamp);
+}
 
 // for new Game
 function newGame(e){
     let parag = document.getElementById('parag')
     parag.innerHTML = ''
-    for(let i=0; i<100; i++){
+    for(let i=0; i<120; i++){
         parag.innerHTML += formatParag(randomWord())
     }
 
@@ -44,8 +58,8 @@ function newGame(e){
 function gameOver(){
     clearInterval(window.timer)
     addClass(document.querySelector('#game'), 'over')
+    document.getElementById('time').innerHTML = `WPM : ${getWPM()}`
 }
-
 
 // keyboard Events
 document.getElementById('game').addEventListener('keyup', function(e){
@@ -177,7 +191,6 @@ document.getElementById('game').addEventListener('keyup', function(e){
         }
     }
     
-
     // scroll lines
     if(currWord.getBoundingClientRect().top > 285){
         let parag = document.querySelector('#parag')
