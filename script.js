@@ -38,66 +38,84 @@ function removeClass(tag, className){
 // keyboard Events
 document.getElementById('game').addEventListener('keyup', function(e){
 
-    let word = document.querySelector('.current')
-    let expected = word.querySelector('.current')
+    let currWord = document.querySelector('.current')
+    let currLetter = currWord.querySelector('.current')
     let key = e.key
-    // if(expected)
-    //     console.log(`key : ${key},  expected:${expected.innerHTML}`)
+    // if(currLetter)
+    //     console.log(`key : ${key},  currLetter:${currLetter.innerHTML}`)
     
     // key is space
     if(key == ' '){
 
-        // .current is not occupied by any letter, it shows space is expected
-        if(expected == null){
-            // console.log(`1. Key :${key}, Expected :${expected}`);
-            removeClass(word, 'current')
-            addClass(word.nextElementSibling, 'current')
-            addClass(word.nextElementSibling.querySelector('.letter'), 'current')
-            console.log(word);
-            console.log(word.nextElementSibling);
-            console.log(word.nextElementSibling.querySelector('.letter'));
+        // .current is not occupied by any letter, it shows space is currLetter
+        if(currLetter == null){
+            // console.log(`1. Key :${key}, currLetter :${currLetter}`);
+            removeClass(currWord, 'current')
+            addClass(currWord.nextElementSibling, 'current')
+            addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
+            // console.log(currWord);
+            // console.log(currWord.nextElementSibling);
+            // console.log(currWord.nextElementSibling.querySelector('.letter'));
         }
         // enter space but require any other
         else{
-            // console.log(`2. Key :${key}, Expected :${expected.innerHTML}`);
-            removeClass(expected, 'current')
-            addClass(expected, 'incorrect')
-            let word = expected.parentElement
-            removeClass(word, 'current')
-            addClass(word.nextElementSibling, 'current')
-            addClass(word.nextElementSibling.querySelector('.letter'), 'current')
+            // console.log(`2. Key :${key}, currLetter :${currLetter.innerHTML}`);
+            removeClass(currLetter, 'current')
+            addClass(currLetter, 'incorrect')
+            let currWord = currLetter.parentElement
+            removeClass(currWord, 'current')
+            addClass(currWord.nextElementSibling, 'current')
+            addClass(currWord.nextElementSibling.querySelector('.letter'), 'current')
         }
     }
     // key is not space
     else{
         // expecting space
-        if(expected == null){
-            // console.log(`3. Key :${key}, Expected :${expected}`);
-            let extraletter = document.createElement('span')
-            extraletter.innerHTML = key
-            extraletter.classList = 'letter incorrect extra'
-            word.appendChild(extraletter)
+        if(currLetter == null){
+            // console.log(`3. Key :${key}, currLetter :${currLetter}`);
+            let extraLetter = document.createElement('span')
+            extraLetter.innerHTML = key
+            extraLetter.classList = 'letter incorrect extra'
+            currWord.appendChild(extraLetter)
         }
-        //key == expected
-        else if(key == expected.textContent){
-            // console.log(`4. Key :${key}, Expected :${expected.innerHTML}`);
-            addClass(expected, 'correct')
-            removeClass(expected, 'current')
-            let expectedNext = expected.nextElementSibling
-            if(expectedNext){
-                addClass(expectedNext, 'current')
-                console.log(expectedNext);
+        //key == currLetter
+        else if(key == currLetter.textContent){
+            // console.log(`4. Key :${key}, currLetter :${currLetter.innerHTML}`);
+            addClass(currLetter, 'correct')
+            removeClass(currLetter, 'current')
+            let nextLetter = currLetter.nextElementSibling
+            if(nextLetter){
+                addClass(nextLetter, 'current')
+                // console.log(nextLetter);
             }
         }
-        // key != expected
+        // key != currLetter
         else{
-            // console.log(`5. Key :${key}, Expected :${expected.innerHTML}`);
-            addClass(expected, 'incorrect')
-            removeClass(expected, 'current')
-            let expectedNext = expected.nextElementSibling
-            if(expectedNext){
-                addClass(expectedNext, 'current')
+            // console.log(`5. Key :${key}, currLetter :${currLetter.innerHTML}`);
+            addClass(currLetter, 'incorrect')
+            removeClass(currLetter, 'current')
+            let nextLetter = currLetter.nextElementSibling
+            if(nextLetter){
+                addClass(nextLetter, 'current')
             }
         }
+    }
+    
+    // move blinking cursor...
+    // currWord or ,nextWord(if currLetter is space)
+    currWord = document.querySelector('.current')
+    let nextLetter = currWord.querySelector('.current')
+    let cursor = document.getElementById('cursor')
+
+    // for next line // getBoundingClientRect() show actual param of div
+    cursor.style.top = nextLetter.getBoundingClientRect().top + 'px'
+
+    // if nextLetter is not space then nextLetter's left is assign
+    if(nextLetter){
+        cursor.style.left = nextLetter.getBoundingClientRect().left + 'px'
+    }
+    // if nextLetter is space then nextWord's right is assign
+    else{
+        cursor.style.left = currWord.getBoundingClientRect().right + 'px'
     }
 })
