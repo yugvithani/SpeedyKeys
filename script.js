@@ -54,16 +54,20 @@ function newGame(){
 
     document.querySelector('.word').classList += ' current'
     document.querySelector('.letter').classList += ' current'
-    window.timer = null
     document.querySelector('#time').innerHTML = timeStamp
     // reset game tag 
     document.querySelector('#game').classList.remove('over')
     // reset variable
     window.timer = null         
     gameStartTime = null  
+    // reset parag
+    // while(parag.getBoundingClientRect().top < 219){
+    //     parag.style.marginTop = (parseInt(parag.style.marginTop) - 33) + 'px'
+    // }
     // reset cursor
     cursor.style.left = document.querySelector('.letter.current').getBoundingClientRect().left + 'px'
     cursor.style.top = document.querySelector('.letter.current').getBoundingClientRect().top + 'px'
+    addClass(document.querySelector('.word.current'), 'paragFirstWord')
 }
 
 function gameOver(){
@@ -90,7 +94,7 @@ document.getElementById('game').addEventListener('keyup', function(e){
     }
 
     // for timer & active when typing is start
-    if(!window.timer && isLetter){
+    if(!window.timer && (isLetter || isSpace)){
         window.timer = setInterval(() => {
             if(!gameStartTime){
                 gameStartTime = (new Date).getTime()    
@@ -224,5 +228,6 @@ document.getElementById('game').addEventListener('keyup', function(e){
     // if nextLetter is space then nextWord's right is assign
     else{
         cursor.style.left = currWord.getBoundingClientRect().right + 'px'
+        cursor.style.top = currWord.getBoundingClientRect().top + 4.5 + 'px'
     }
 })
