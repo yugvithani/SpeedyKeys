@@ -28,7 +28,8 @@ function removeClass(tag, className){
 
 window.timer = null         // for global var
 let gameStartTime = null    // starting time of game
-let timeStamp = 30          // time stamp for game
+let timeStamp = 60          // time stamp for game, in second
+let scrollCount = 0 
 
 function getWPM(){
     let allWords = [...document.querySelectorAll('.word')]
@@ -48,7 +49,7 @@ function getWPM(){
 function newGame(){
     let parag = document.getElementById('parag')
     parag.innerHTML = ''
-    for(let i=0; i<120; i++){
+    for(let i=0; i<100; i++){
         parag.innerHTML += formatParag(randomWord())
     }
 
@@ -61,13 +62,13 @@ function newGame(){
     window.timer = null         
     gameStartTime = null  
     // reset parag
-    // while(parag.getBoundingClientRect().top < 219){
-    //     parag.style.marginTop = (parseInt(parag.style.marginTop) - 33) + 'px'
-    // }
+    while(scrollCount > 0){
+        parag.style.marginTop = (parseInt(parag.style.marginTop) + 33) + 'px'
+        scrollCount--
+    }
     // reset cursor
     cursor.style.left = document.querySelector('.letter.current').getBoundingClientRect().left + 'px'
     cursor.style.top = document.querySelector('.letter.current').getBoundingClientRect().top + 'px'
-    addClass(document.querySelector('.word.current'), 'paragFirstWord')
 }
 
 function gameOver(){
@@ -87,6 +88,7 @@ document.getElementById('game').addEventListener('keyup', function(e){
     const isBackspace = (key == 'Backspace')
     const isFirstLetter = (currLetter == currWord.firstChild)
     const isExtraLetter = currWord.lastChild.classList.contains('extra')
+    const isFirstWord = (currWord.previousElementSibling && currWord.previousElementSibling.getBoundingClientRect().top <250) && isFirstLetter
     
     // if timer is over
     if(document.querySelector('#game.over')){
@@ -144,7 +146,7 @@ document.getElementById('game').addEventListener('keyup', function(e){
         // not space and curr is first letter
         if(currLetter && isFirstLetter){
             // for the all word expecting first word
-            if(currWord.previousElementSibling){
+            if(currWord.previousElementSibling && !isFirstWord){
                 removeClass(currWord, 'current')
                 addClass(currWord.previousElementSibling, 'current')
                 removeClass(currLetter, 'current')
@@ -211,6 +213,7 @@ document.getElementById('game').addEventListener('keyup', function(e){
         let parag = document.querySelector('#parag')
         let margin = parseInt(parag.style.marginTop || '0px')
         parag.style.marginTop = (margin - 33) + 'px'
+        scrollCount++
     }
 
     // move blinking cursor...
